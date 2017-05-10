@@ -13,4 +13,15 @@ router.get('/', function (req, res) {
     })
 })
 
+router.get('/profile/:userid', function (req, res) {
+  db.getProfile(req.params.userid ,req.app.get('connection'))
+    .then(function (profiles) {
+      let viewData = profiles[0]
+      res.render('profileView', viewData)
+    })
+    .catch(function (err) {
+      res.status(500).send('DATABASE ERROR: ' + err.message)
+    })
+})
+
 module.exports = router
